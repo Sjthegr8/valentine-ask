@@ -70,3 +70,44 @@ yesBtn.addEventListener("click", () => {
 
     finalText.style.display = "block";
 });
+
+const noBtn = document.getElementById("no");   // change ids if yours differ
+const yesBtn = document.getElementById("yes");
+
+function moveNoButton() {
+  // Make sure the button is positioned so it can move
+  noBtn.style.position = "fixed";
+
+  const padding = 16;
+
+  const btnRect = noBtn.getBoundingClientRect();
+  const maxX = window.innerWidth - btnRect.width - padding;
+  const maxY = window.innerHeight - btnRect.height - padding;
+
+  const x = Math.max(padding, Math.floor(Math.random() * maxX));
+  const y = Math.max(padding, Math.floor(Math.random() * maxY));
+
+  noBtn.style.left = `${x}px`;
+  noBtn.style.top = `${y}px`;
+}
+
+// Desktop: hover
+noBtn.addEventListener("mouseenter", moveNoButton);
+
+// Mobile: tap / touch
+noBtn.addEventListener("touchstart", (e) => {
+  e.preventDefault();   // stops click firing + reduces weirdness
+  moveNoButton();
+}, { passive: false });
+
+// Works for many devices (mouse + touch + pen)
+noBtn.addEventListener("pointerdown", (e) => {
+  // On phones, this triggers on touch
+  moveNoButton();
+});
+
+window.addEventListener("resize", () => {
+  // If the phone rotates, re-position the button inside the new viewport
+  moveNoButton();
+});
+
